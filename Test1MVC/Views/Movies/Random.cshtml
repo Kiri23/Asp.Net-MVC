@@ -1,4 +1,5 @@
-﻿@model Test1MVC.Models.Movie
+﻿@*El RandomMovieViewModel- Contiene dos Objetos-Customer,Movie-Por eso es que la puedo accesar abajo*@
+@model Test1MVC.ViewModel.RandomMovieViewModel
 
 @*Esto de abajo es un blog que tiene dos propiedades viewbag.tittle que es el tittle de la pagina y Layout que es el layout de la pagina   *@
 
@@ -7,5 +8,34 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>@Model.Name </h2> 
+@*Como crear variables Conditionalmente ponerle una class si la Movie ha sido rentada por mas de 5 persona *@
+@{ 
+    var className = Model.Customers.Count > 5 ? "popular" : null;
+}
 
+
+<h2 class= "@className">@Model.Movie.Name </h2> 
+
+@* Customers es una Lista y tiene una propiedad que se llama Count *@
+@if (Model.Customers.Count == 0)
+{
+    <p> No One has rented this movie before </p>
+}
+else
+{
+    <ul>
+        @foreach (var customer in Model.Customers)
+        {
+            <li> @customer.Name</li>
+        }
+    </ul>
+}
+
+
+
+@*Para darle Rendered a un Data con ViewData se ultiliza asi: @(((Movie) ViewData["Movie"]).Name) 
+  se ultiliza asi pq we need to cast the dictionary a un Movie Object y despues accesar la propiedad Name.
+ *@
+@* Dentro del aroba y asterico se puede escribir Html o codigo c#*@
+
+@*  Lo que se va a hacer ahora es como pasa dos diferentes Modelos a estos View Uno de Customer y otro de Peliculas y tener una relacion de customer y peliculas- Para esto se crea un ViewModel *@
